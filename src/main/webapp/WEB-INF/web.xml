@@ -6,7 +6,14 @@
 
 	<display-name>webapp-coding-test</display-name>
 
-
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		    WEB-INF/spring-servlet.xml
+	    	WEB-INF/spring-security.xml
+		    </param-value>
+	</context-param>
+	
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>
@@ -20,13 +27,16 @@
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-		    /WEB-INF/spring-servlet.xml
-		    </param-value>
-	</context-param>
+	<!--Hook into spring security-->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>springSecurityFilterChain</filter-name>
+	  <url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
 
 	<listener>
 		<listener-class>
