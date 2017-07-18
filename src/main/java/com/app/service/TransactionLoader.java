@@ -16,26 +16,9 @@ public class TransactionLoader {
     private RestTemplate restTemplate;
 	
 	public OBTransactionResponse getTransactionsFromOB() throws Exception{
-		
+		log.info("Rest call to https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions");
 		OBTransactionResponse response = null;
-//		try{
-			 response = restTemplate.getForObject("https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions", OBTransactionResponse.class);
-			
-//	        log.debug("GARBAGE IN RESPONSE:" + "\n\n" + response.substring(0, 5) + "\n\n");
-//	        String toBeParsed = response.substring(6, response.length());
-//	        atmDataPopulatorLogger.debug("TO BE PARSED RESPONSE:" + "\n\n" + toBeParsed + "\n\n");
-//	        ObjectMapper objectMapper = new ObjectMapper();
-//	        try {
-//				OBTransactionResponse obTransactionResponse = objectMapper.readValue(toBeParsed, OBTransactionResponse.class);
-//				System.out.println(obTransactionResponse);
-
-//	        atmDataPopulatorLogger.debug("PARSED RESPONSE:" + "\n\n" + ingAtmLocations.toString() + "\n\n");
-
-//	        return Arrays.asList(ingAtmLocations);
-//			} catch (Exception e) {
-//			
-//				e.printStackTrace();
-//			}
+		response = restTemplate.getForObject("https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions", OBTransactionResponse.class);
 		return response;
 	}
 }

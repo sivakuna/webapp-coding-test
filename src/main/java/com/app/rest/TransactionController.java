@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.app.bb.model.BBTransaction;
-import com.app.service.TransactionLoader;
 import com.app.service.TransactionService;
 
 @RestController
 @EnableWebMvc
 public class TransactionController {
 
-	private Logger log = LoggerFactory.getLogger(TransactionLoader.class);
+	private Logger log = LoggerFactory.getLogger(TransactionController.class);
 	 
 	@Autowired
 	private TransactionService transactionService;
@@ -47,15 +46,5 @@ public class TransactionController {
 		Map<String, Float>  totalAmount =  transactionService.getTransactionsAmountByTypeFromOB(type);
 		return totalAmount;
 	}
-	
-
-	
-//	@RequestMapping(value = "/transactionstest", method = RequestMethod.GET)
-//	public void getTransactionsTest() throws Exception {
-//		log.info("invoking...getTransactionsTest");
-//		
-////		RestTemplate rs =new RestTemplate();
-////		String s = rs.getForObject("http://localhost:8080/webapp-coding-test/rest/transactions", String.class);
-//	}
 	
 }
