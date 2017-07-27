@@ -15,8 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.app.bb.model.BBTransaction;
-import com.app.service.TransactionService;
+import com.app.service.TransactionServiceImpl;
 
+/**
+ * Transaction rest api.
+ * 
+ * @author skuna
+ *
+ */
 @RestController
 @EnableWebMvc
 public class TransactionController {
@@ -24,8 +30,14 @@ public class TransactionController {
 	private Logger log = LoggerFactory.getLogger(TransactionController.class);
 	 
 	@Autowired
-	private TransactionService transactionService;
+	private TransactionServiceImpl transactionService;
 	
+	/**
+	 * Retrieve all transactions.
+	 * 
+	 * @return all transactions.
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BBTransaction> getTransactions() throws Exception {
 		log.info("invoking...getTransactions");
@@ -33,6 +45,13 @@ public class TransactionController {
 		return transactions;
 	}
 
+	/**
+	 * Retrieve transactions of specific type.
+	 * 
+	 * @param type Transaction type.
+	 * @return transactions of specific type.
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/transactions/{type}", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BBTransaction> getTransactionsByType(@PathVariable("type") String type) throws Exception {
 		log.info("invoking...getTransactionsByType");
@@ -40,6 +59,13 @@ public class TransactionController {
 		return transactions;
 	}
 	
+	/**
+	 * Retrieve transaction total amount of specific transaction type.
+	 * 
+	 * @param type Transaction type.
+	 * @return a map of transaction total amount of specific transaction type.
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/transactions/total/{type}", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, Float>  getTransactionAmountByType(@PathVariable("type") String type) throws Exception {
 		log.info("invoking...getTransactionAmountByType");

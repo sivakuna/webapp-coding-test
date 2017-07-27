@@ -1,17 +1,17 @@
 package com.rest.test;
 
-import java.util.LinkedHashMap;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.apache.commons.codec.binary.Base64;
+import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -65,27 +65,30 @@ public class TransactionsRestTest {
 
 	public void testTotalAmount(){
 		logger.info("Testing - testTotalAmount");
-		ResponseEntity<Map> response = restTemplate.exchange(url + "transactions/total/sandbox-payment", HttpMethod.GET, request, Map.class);
-		Map<String,Double> amount = response.getBody();
-		Assert.assertEquals(amount.get("GBP").equals(73.76), true);
+		ParameterizedTypeReference<Map<String, Float>> typeRef = new ParameterizedTypeReference<Map<String, Float>>() {};
+		ResponseEntity<Map<String, Float>> response = restTemplate.exchange(url + "transactions/total/sandbox-payment", HttpMethod.GET, request, typeRef);
+		Map<String,Float> amount = response.getBody();
+		assertTrue(amount.get("GBP").equals( 73.76f));
 		logger.info(amount.toString());
 	}
 	
 	public void testTransactions(){
-		logger.info("Testing - testTotalAmount");
-		ResponseEntity<List> response = restTemplate.exchange(url + "transactions", HttpMethod.GET, request, List.class);
+		logger.info("Testing - testTransactions");
+		ParameterizedTypeReference<List<BBTransaction>> typeRef = new ParameterizedTypeReference<List<BBTransaction>>() {};
+		ResponseEntity<List<BBTransaction>> response = restTemplate.exchange(url + "transactions", HttpMethod.GET, request, typeRef);
 		List<BBTransaction> transactions = response.getBody();
 		Assert.assertEquals(transactions.size(), 50);
 		logger.info(transactions.toString());
 	}
 	
 	public void testTransactionsWithType(){
-
-		ResponseEntity<List> response = restTemplate.exchange(url + "transactions/sandbox-payment", HttpMethod.GET, request, List.class);
-		List<LinkedHashMap<String,String>> transactions = response.getBody();
+		logger.info("Testing - testTransactionsWithType");
+		ParameterizedTypeReference<List<BBTransaction>> typeRef = new ParameterizedTypeReference<List<BBTransaction>>() {};
+		ResponseEntity<List<BBTransaction>> response = restTemplate.exchange(url + "transactions/sandbox-payment", HttpMethod.GET, request, typeRef);
+		List<BBTransaction> transactions = response.getBody();
 		for (int i = 0; i < transactions.size(); i++) {
-			LinkedHashMap<String, String>  bb = transactions.get(i);
-			Assert.assertEquals(bb.get("transactionType"),"sandbox-payment");
+			BBTransaction bb = transactions.get(i);
+			Assert.assertEquals(bb.getTransactionType(),"sandbox-payment");
 		}
 		logger.info(transactions.toString());
 	}
